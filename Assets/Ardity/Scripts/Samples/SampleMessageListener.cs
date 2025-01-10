@@ -19,7 +19,6 @@ public class SampleMessageListener : MonoBehaviour
     // Invoked when a line of data is received from the serial device.
     void OnMessageArrived(string msg)
     {
-        float curValue = float.Parse (msg);
         Debug.Log("Message arrived: " + msg);
     }
 
