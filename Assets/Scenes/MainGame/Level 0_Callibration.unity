@@ -682,8 +682,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: df4c526778e6fe841b2ea66e4b25e321, type: 2}
+  m_sharedMaterial: {fileID: -767741856990385296, guid: df4c526778e6fe841b2ea66e4b25e321, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1280,8 +1280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inhaleExhaleText: {fileID: 639697163}
-  minPeak: 0
-  maxPeak: 0
   callibration: 100
   targetCycles: 4
   inhaleDuration: 3

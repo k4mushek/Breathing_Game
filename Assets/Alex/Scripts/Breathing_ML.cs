@@ -1,31 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class Calibration_ML : MonoBehaviour
+public class Breathing_ML : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public TextMeshProUGUI inhaleExhaleText;
-    static public int minPeak;
-    static public int maxPeak;
-    [SerializeField] private int callibration;
-    [SerializeField] private int targetCycles = 10;
     [SerializeField] private float inhaleDuration = 3f;
     [SerializeField] private float exhaleDuration = 3f;
-
-    public string nextSceneName = "L_TestingVR";
-
-    private int prevValue = 0;
-    private int cycleCount = 0;
-    private bool isRising = false;
-    private bool isFalling = false;
+    [SerializeField] private int callibration;
+    [SerializeField] private float peakCalibration = 0.05f;
     [SerializeField] private float riseTime = 0f;
     [SerializeField] private float fallTime = 0f;
+    [SerializeField] private float dropThreshold = 0.7f;
+    [SerializeField] private float ScaleFactor;
+    [SerializeField] private GameObject scaleObject;
 
-    private void Start()
+    private int posPeak = Calibration_ML.maxPeak;
+    private int negPeak = Calibration_ML.minPeak;
+    private int localPosPeak;
+    private int localNegPeak;
+    private int prevValue = 0;
+    private bool isRising = false;
+    private bool isFalling = false;
+    private bool canGrow = false;
+
+    public TextMeshProUGUI inhaleExhaleText;
+
+    void Start()
     {
+        Debug.Log("PosPeak= " + Calibration_ML.maxPeak);
+        Debug.Log("NegPeak= " + Calibration_ML.minPeak);
         if (inhaleExhaleText != null)
         {
             inhaleExhaleText.text = "Inhale";
@@ -33,14 +37,11 @@ public class Calibration_ML : MonoBehaviour
     }
     void OnMessageArrived(string msg)
     {
-        //Debug.Log("Message arrived: " + msg);
-
         int curValue = int.Parse(msg);
 
         if (curValue > prevValue + callibration)
         {
-            maxPeak = curValue;
-            Debug.Log("New Max Peak: " + maxPeak);
+            localPosPeak = curValue;
 
             if (!isRising)
             {
@@ -54,11 +55,13 @@ public class Calibration_ML : MonoBehaviour
                 }
             }
 
-            if (Time.time - riseTime >= inhaleDuration)
+            if ((localPosPeak >= posPeak + peakCalibration) && (Time.time - riseTime >= inhaleDuration))
             {
-                isRising = false; 
+                isRising = false;
                 isFalling = true;
+                canGrow = true;
                 fallTime = Time.time;
+                Debug.Log("Reached peak");
 
                 if (inhaleExhaleText != null)
                 {
@@ -69,8 +72,7 @@ public class Calibration_ML : MonoBehaviour
 
         else if (curValue < prevValue + callibration)
         {
-            minPeak = curValue;
-            Debug.Log("New Min Peak: " + minPeak);
+            localNegPeak = curValue;
 
             if (!isFalling)
             {
@@ -84,6 +86,13 @@ public class Calibration_ML : MonoBehaviour
                 }
             }
 
+            if (curValue < posPeak * dropThreshold && canGrow)
+            {
+                scaleObject.transform.localScale = new Vector3(ScaleFactor, ScaleFactor, ScaleFactor);
+                Debug.Log("Scaled!");
+                canGrow = false;
+            }
+
             if (Time.time - fallTime >= exhaleDuration)
             {
                 isRising = true;
@@ -94,30 +103,9 @@ public class Calibration_ML : MonoBehaviour
                 {
                     inhaleExhaleText.text = "Inhale";
                 }
-
-                cycleCount++;
-
-                if (cycleCount >= targetCycles)
-                {
-                    cycleCount = 0;
-                    Debug.Log("Completed");
-
-                    LoadNextScene();
-                }
             }
 
+            prevValue = curValue;
         }
-        
-        prevValue = curValue;
     }
-    void LoadNextScene()
-    {
-        SceneManager.LoadScene(nextSceneName);
-    }
-
-    public void SetInt(string name, int value)
-        {
-            PlayerPrefs.SetInt("NegPeak", minPeak);
-            PlayerPrefs.SetInt("PosPeak", maxPeak);
-        }
 }
