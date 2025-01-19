@@ -8,8 +8,8 @@ public class Calibration_ML : MonoBehaviour
 {
     // Start is called before the first frame update
     public TextMeshProUGUI inhaleExhaleText;
-    static public int minPeak;
-    static public int maxPeak;
+    static public float minPeak;
+    static public float maxPeak;
     [SerializeField] private int callibration;
     [SerializeField] private int targetCycles = 10;
     [SerializeField] private float inhaleDuration = 3f;
@@ -17,7 +17,7 @@ public class Calibration_ML : MonoBehaviour
 
     public string nextSceneName = "L_TestingVR";
 
-    private int prevValue = 0;
+    private float prevValue = 0;
     private int cycleCount = 0;
     private bool isRising = false;
     private bool isFalling = false;
@@ -35,7 +35,7 @@ public class Calibration_ML : MonoBehaviour
     {
         //Debug.Log("Message arrived: " + msg);
 
-        int curValue = int.Parse(msg);
+        float curValue = float.Parse(msg);
 
         if (curValue > prevValue + callibration)
         {
@@ -115,9 +115,11 @@ public class Calibration_ML : MonoBehaviour
         SceneManager.LoadScene(nextSceneName);
     }
 
-    public void SetInt(string name, int value)
-        {
-            PlayerPrefs.SetInt("NegPeak", minPeak);
-            PlayerPrefs.SetInt("PosPeak", maxPeak);
-        }
+    void OnConnectionEvent(bool success)
+    {
+        if (success)
+            Debug.Log("Connection established");
+        else
+            Debug.Log("Connection attempt failed or disconnection detected");
+    }
 }
