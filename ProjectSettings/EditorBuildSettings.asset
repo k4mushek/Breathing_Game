@@ -4,7 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainGame/Level 0_Callibration.unity
+    guid: 120ac77a7070b394fbf0a3527642db00
+  - enabled: 1
+    path: Assets/Alex/Maps/L_TestingVR.unity
+    guid: 4de7dc3772d3882419740f1b359c47f9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: d10fc7c071fcc3d4eba92f1a86a0e5cb, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 293b2192894888d41b0a3e7b3b39f31d, type: 2}

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: cbeb01323707f8247aaeef7216335eb7
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Normal: {fileID: 2800000, guid: db59049c91e6b124d9b2e551cf157e89, type: 3}
+  - _SecondaryNormal: {fileID: 2800000, guid: b986b9abecbd629439c6bcdbce3e374e, type: 3}
+  - _CausticsTex: {fileID: 2800000, guid: 81ea855dffbe787439dec7fb82f48045, type: 3}
+  - _SeaFoam: {fileID: 2800000, guid: 0066da7fc33808048a085ab52a41c20a, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
