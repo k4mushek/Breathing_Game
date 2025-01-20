@@ -15,6 +15,7 @@ public class Growing : MonoBehaviour
     void Start()
     {
         treeAnimator = growingTree.GetComponent<Animator>();
+        leaf.GetComponent<MeshRenderer>().enabled = false;
         breathingScript = FindObjectOfType<NewBreathing_ML>();
     }
 
@@ -62,8 +63,8 @@ public class Growing : MonoBehaviour
 
     void SpawnLeaf()
     {
-        Vector3 spawnPosition = new Vector3(0f, 1f, 0f);
-        Instantiate(leaf, spawnPosition, Quaternion.identity);
+        GameObject spawnedLeaf = Instantiate(leaf, new Vector3(0f, 1f, 0f), Quaternion.identity);
+        spawnedLeaf.GetComponent<MeshRenderer>().enabled = true;
         Debug.Log("Leaf is spawned");
     }
 

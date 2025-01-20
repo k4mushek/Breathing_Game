@@ -10,7 +10,8 @@ public class Calibration_ML : MonoBehaviour
     public TextMeshProUGUI inhaleExhaleText;
     static public float minPeak;
     static public float maxPeak;
-    [SerializeField] private int callibration;
+    private float peakRange;
+    private float threshold;
     [SerializeField] private int targetCycles = 10;
     [SerializeField] private float inhaleDuration = 3f;
     [SerializeField] private float exhaleDuration = 3f;
@@ -37,7 +38,7 @@ public class Calibration_ML : MonoBehaviour
 
         float curValue = float.Parse(msg);
 
-        if (curValue > prevValue + callibration)
+        if (curValue > prevValue + threshold)
         {
             maxPeak = curValue;
             Debug.Log("New Max Peak: " + maxPeak);
@@ -67,7 +68,7 @@ public class Calibration_ML : MonoBehaviour
             }
         }
 
-        else if (curValue < prevValue + callibration)
+        else if (curValue < prevValue + threshold)
         {
             minPeak = curValue;
             Debug.Log("New Min Peak: " + minPeak);
@@ -109,6 +110,8 @@ public class Calibration_ML : MonoBehaviour
         }
         
         prevValue = curValue;
+        peakRange = maxPeak - minPeak;
+        threshold = peakRange * 0.1f;
     }
     void LoadNextScene()
     {
