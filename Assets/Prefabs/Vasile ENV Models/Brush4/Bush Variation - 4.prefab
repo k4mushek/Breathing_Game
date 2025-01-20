@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
       propertyPath: m_LocalPosition.x
@@ -87,5 +87,77 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8357488433874062729}
   m_SourcePrefab: {fileID: 100100000, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+--- !u!23 &631023402923669037 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5156380648761706199, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3451087233677171072 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6965455767158417786, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4593242292863545993 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8138150864540156531, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4868273831100796331 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!205 &8357488433874062729
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4868273831100796331}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.04648304, y: 1.656593, z: -0.15096796}
+  m_Size: 6.29877
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4593242292863545993}
+    - renderer: {fileID: 7841564224537486152}
+    - renderer: {fileID: 3451087233677171072}
+    - renderer: {fileID: 8639000589720789407}
+    - renderer: {fileID: 631023402923669037}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4593242292863545993}
+    - renderer: {fileID: 7841564224537486152}
+    - renderer: {fileID: 3451087233677171072}
+    - renderer: {fileID: 8639000589720789407}
+    - renderer: {fileID: 631023402923669037}
+  - screenRelativeHeight: 0.004152094
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4593242292863545993}
+    - renderer: {fileID: 7841564224537486152}
+    - renderer: {fileID: 3451087233677171072}
+    - renderer: {fileID: 8639000589720789407}
+    - renderer: {fileID: 631023402923669037}
+  m_Enabled: 1
+--- !u!23 &7841564224537486152 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2565971576867328946, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8639000589720789407 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5139423202968579739, guid: 1b4bf5d99e791c341a42347b84f885ed, type: 3}
+  m_PrefabInstance: {fileID: 5714782674466042106}
+  m_PrefabAsset: {fileID: 0}
