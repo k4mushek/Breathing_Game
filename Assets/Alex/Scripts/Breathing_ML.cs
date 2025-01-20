@@ -26,6 +26,12 @@ public class Breathing_ML : MonoBehaviour
 
     public TextMeshProUGUI inhaleExhaleText;
 
+    // New property to store the slider value
+    public float TargetSliderValue { get; private set; } = 0f; // Expose this to update the slider
+
+    // New property to store inhale/exhale state
+    public bool IsInhaling { get; private set; } = false;
+
     void Start()
     {
         Debug.Log("PosPeak= " + Calibration_ML.maxPeak);
@@ -35,6 +41,7 @@ public class Breathing_ML : MonoBehaviour
             inhaleExhaleText.text = "Inhale";
         }
     }
+
     void OnMessageArrived(string msg)
     {
         int curValue = int.Parse(msg);
@@ -68,8 +75,11 @@ public class Breathing_ML : MonoBehaviour
                     inhaleExhaleText.text = "Exhale";
                 }
             }
-        }
 
+            // Set TargetSliderValue for inhale (0 to 1)
+            TargetSliderValue = Mathf.Clamp01((Time.time - riseTime) / inhaleDuration);
+            IsInhaling = true;
+        }
         else if (curValue < prevValue + callibration)
         {
             localNegPeak = curValue;
@@ -105,7 +115,12 @@ public class Breathing_ML : MonoBehaviour
                 }
             }
 
+            // Set TargetSliderValue for exhale (1 to 0)
+            TargetSliderValue = Mathf.Clamp01(1 - ((Time.time - fallTime) / exhaleDuration));
+            IsInhaling = false;
+
             prevValue = curValue;
         }
     }
 }
+
