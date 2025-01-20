@@ -31,7 +31,7 @@ public class SliderUpdater : MonoBehaviour
         if (breathingML != null)
         {
             // Read the TargetSliderValue from Breathing_ML and update the fillAmount of the Image
-            targetFillAmount = breathingML.TargetSliderValue;
+            //targetFillAmount = breathingML.TargetSliderValue;
         }
 
         // Smoothly update the fill amount of the image
