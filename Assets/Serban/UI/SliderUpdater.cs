@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class SliderUpdater : MonoBehaviour
 {
     [SerializeField] private Image breathingImage; // Reference to the Image component
-    private Breathing_ML breathingML; // Reference to Breathing_ML, will be found at runtime
+    private Calibration_ML breathingML; // Reference to Breathing_ML, will be found at runtime
 
     private float smoothTime = 0.3f; // Smoothing time for the transition
     private float currentFillAmount = 0f; // Current fill amount for smooth transition
@@ -13,7 +13,7 @@ public class SliderUpdater : MonoBehaviour
     void Start()
     {
         // Automatically find the Breathing_ML component at runtime
-        breathingML = FindObjectOfType<Breathing_ML>();
+        breathingML = FindObjectOfType<Calibration_ML>();
 
         if (breathingML == null)
         {
