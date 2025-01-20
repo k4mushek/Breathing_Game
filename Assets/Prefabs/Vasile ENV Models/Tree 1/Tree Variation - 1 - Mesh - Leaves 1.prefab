@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6e3c67a975f2cc245898277efd17cbc8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e3c67a975f2cc245898277efd17cbc8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e3c67a975f2cc245898277efd17cbc8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e3c67a975f2cc245898277efd17cbc8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -129,7 +129,7 @@ LODGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425672025489186771}
   serializedVersion: 2
-  m_LocalReferencePoint: {x: -0.44994164, y: 4.8437743, z: -2.9644165}
+  m_LocalReferencePoint: {x: -0.44994068, y: 4.8437743, z: -2.9644156}
   m_Size: 16.911486
   m_FadeMode: 0
   m_AnimateCrossFading: 0
@@ -145,7 +145,7 @@ LODGroup:
     renderers:
     - renderer: {fileID: 8068460284131926257}
     - renderer: {fileID: 6379151062373262421}
-  - screenRelativeHeight: 0.1
+  - screenRelativeHeight: 0.01279571
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6379151062373262421}
