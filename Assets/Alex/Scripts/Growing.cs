@@ -23,8 +23,8 @@ public class Growing : MonoBehaviour
     {
         if (breathingScript.exhaleTrigger)
         {
-            breathingScript.exhaleTrigger = false;
             StartAnimation();
+            breathingScript.exhaleTrigger = false;
         }
     }
 

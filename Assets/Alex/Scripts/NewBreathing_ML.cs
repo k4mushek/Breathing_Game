@@ -63,6 +63,7 @@ public class NewBreathing_ML : MonoBehaviour
             isFalling = true;
             isRising = false;
             localPeak = curValue;
+            exhaleTrigger = true;
             Debug.Log("Breathing out");
 
             //if (exhaleTrigger! && curValue < negPeak + 100f)
@@ -76,7 +77,7 @@ public class NewBreathing_ML : MonoBehaviour
                 Debug.Log("Exhalation Peak reached");
                 cycleCount++;
                 isFalling = false;
-                exhaleTrigger = true;
+                
             }
 
             // if (Time.time - fallTime >= exhaleDuration)
