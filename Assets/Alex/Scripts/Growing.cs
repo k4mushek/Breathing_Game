@@ -36,6 +36,7 @@ public class Growing : MonoBehaviour
             currentPhase = 0;
             treeAnimator.SetTrigger($"Phase{currentPhase + 1}");
             Debug.Log("Starting animation...");
+            OnAnimationComplete();
         }
     }
 
@@ -68,7 +69,6 @@ public class Growing : MonoBehaviour
 
         void SpawnLeaf()
     {
-        //GameObject spawnedLeaf = Instantiate(leaf, new Vector3(0f, 1f, 0f), Quaternion.identity);
         leaf.GetComponent<MeshRenderer>().enabled = true;
         Debug.Log("Leaf is spawned");
     }

@@ -1155,7 +1155,7 @@ MonoBehaviour:
   targetCycles: 4
   inhaleDuration: 3
   exhaleDuration: 3
-  nextSceneName: L_TestingVR
+  nextSceneName: Level 1+2_tree+water
   riseTime: 0
   fallTime: 0
 --- !u!1 &1672799253
@@ -1464,9 +1464,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6659104567374923243, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659104567374923243, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -30
+      objectReference: {fileID: 0}
     - target: {fileID: 6789835631464174239, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
       propertyPath: m_Name
       value: UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989336457513661201, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989336457513661201, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989336457513661201, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 71
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989336457513661201, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 124
       objectReference: {fileID: 0}
     - target: {fileID: 7252932843274478209, guid: 0d64282c5e5ad47e5bff6724044dec76, type: 3}
       propertyPath: m_Camera
