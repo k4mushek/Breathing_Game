@@ -12,8 +12,8 @@ public class NewBreathing_ML : MonoBehaviour
 
     private float peakRange;
     private float threshold;
-    private float riseTime = 0f;
-    private float fallTime = 0f;
+    [SerializeField] private float riseTime = 0f;
+    [SerializeField] private float fallTime = 0f;
     private float lastValue = 0f;
     private float localPeak = 0f;
     private bool isRising = false;
@@ -36,43 +36,54 @@ public class NewBreathing_ML : MonoBehaviour
         //Debug.Log("Message arrived: " + msg);
 
         float curValue = float.Parse(msg);
-        if (curValue > localPeak + threshold && curValue > lastValue && !isRising)
+        if (curValue > localPeak + threshold && !isRising)
         {
-            riseTime = Time.time;
+           // riseTime = Time.time;
             isRising = true;
             isFalling = false;
             localPeak = curValue;
+            exhaleTrigger = false;
             Debug.Log("Breathing in");
+
+            if (localPeak + threshold >= posPeak)
+            {
+                Debug.Log("Inhalation peak reached.");
+                isRising = false;
+            }
+
+            //if (Time.time - riseTime >= inhaleDuration)
+            // {
+
+            //}
         }
 
-        else if (curValue < localPeak + threshold && curValue < lastValue && !isFalling)
+        else if (curValue < localPeak + threshold && !isFalling)
         {
-            fallTime = Time.time;
+           // fallTime = Time.time;
             isFalling = true;
             isRising = false;
             localPeak = curValue;
             Debug.Log("Breathing out");
+
+            //if (exhaleTrigger! && curValue < negPeak + 100f)
+            //{
+            //    exhaleTrigger = true;
+            //    Debug.Log("Trigger activated");
+            //}
+
+            if (localPeak - threshold <= negPeak)
+            {
+                Debug.Log("Exhalation Peak reached");
+                cycleCount++;
+                isFalling = false;
+                exhaleTrigger = true;
+            }
+
+            // if (Time.time - fallTime >= exhaleDuration)
+            // {
         }
 
-        if (isRising && Time.time - riseTime >= inhaleDuration && localPeak >=posPeak)
-        {
-            Debug.Log($"Inhalation phase completed. Peak reached. Elapsed time: {Time.time - riseTime:F2}s");
-            isRising = false;
-        }
-
-        if (!exhaleTrigger && Time.time - fallTime >= exhaleDuration / 2)
-        {
-            exhaleTrigger = true;
-            Debug.Log("Trigger activated");
-        }
-
-        if (isFalling && Time.time - fallTime >= exhaleDuration && localPeak <= negPeak)
-        {
-            Debug.Log($"Exhalation phase completed. Peak reached. Elapsed time: {Time.time - fallTime:F2}s");
-            cycleCount++;
-            isFalling = false;
-            exhaleTrigger = false;
-        }
+        
 
         if (cycleCount >= targetCycles)
         {

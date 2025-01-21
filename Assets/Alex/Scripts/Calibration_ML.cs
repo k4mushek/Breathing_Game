@@ -18,6 +18,8 @@ public class Calibration_ML : MonoBehaviour
 
     public string nextSceneName = "L_TestingVR";
 
+    public float TargetSliderValue { get; private set; } = 0f;
+
     private float prevValue = 0;
     private int cycleCount = 0;
     private bool isRising = false;
@@ -48,6 +50,7 @@ public class Calibration_ML : MonoBehaviour
                 riseTime = Time.time;
                 isRising = true;
                 isFalling = false;
+                TargetSliderValue = Mathf.Clamp01(0 + ((Time.time - riseTime) / inhaleDuration));
 
                 if (inhaleExhaleText != null)
                 {
@@ -78,6 +81,7 @@ public class Calibration_ML : MonoBehaviour
                 fallTime = Time.time;
                 isRising = false;
                 isFalling = true;
+                TargetSliderValue = Mathf.Clamp01(1 - ((Time.time - fallTime) / exhaleDuration));
 
                 if (inhaleExhaleText != null)
                 {

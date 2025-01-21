@@ -21,7 +21,7 @@ public class Growing : MonoBehaviour
 
     void Update()
     {
-        if (breathingScript != null && breathingScript.exhaleTrigger)
+        if (breathingScript.exhaleTrigger)
         {
             breathingScript.exhaleTrigger = false;
             StartAnimation();
@@ -41,10 +41,8 @@ public class Growing : MonoBehaviour
 
     public void OnAnimationComplete()
     {
-        // Move to the next phase
         currentPhase++;
 
-        // Check if we have completed all phases
         if (currentPhase >= 4)
         {
             Debug.Log("All phases completed.");
@@ -52,6 +50,8 @@ public class Growing : MonoBehaviour
             MoveCameraToLeaf();
             currentPhase = 0;
             breathingScript.exhaleTrigger = false;
+
+            StopAnimation();
         }
         else
         {
@@ -61,17 +61,23 @@ public class Growing : MonoBehaviour
         animationInProgress = false;
     }
 
-    void SpawnLeaf()
+    void StopAnimation()
     {
-        GameObject spawnedLeaf = Instantiate(leaf, new Vector3(0f, 1f, 0f), Quaternion.identity);
-        spawnedLeaf.GetComponent<MeshRenderer>().enabled = true;
+        treeAnimator.speed = 0; 
+    }
+
+        void SpawnLeaf()
+    {
+        //GameObject spawnedLeaf = Instantiate(leaf, new Vector3(0f, 1f, 0f), Quaternion.identity);
+        leaf.GetComponent<MeshRenderer>().enabled = true;
         Debug.Log("Leaf is spawned");
     }
 
     void MoveCameraToLeaf()
     {
-        GameObject spawnedLeaf = Instantiate(leaf);
-        playerCamera.transform.position = new Vector3(spawnedLeaf.transform.position.x, spawnedLeaf.transform.position.y, spawnedLeaf.transform.position.z);
-        playerCamera.transform.LookAt(spawnedLeaf.transform);
+        Vector3 targetPosition = leaf.transform.position;
+        float moveSpeed = 5f;
+        playerCamera.transform.position = Vector3.MoveTowards(playerCamera.transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        playerCamera.transform.LookAt(leaf.transform);
     }
 }
