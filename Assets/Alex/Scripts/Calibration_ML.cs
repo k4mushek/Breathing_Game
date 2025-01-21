@@ -8,16 +8,19 @@ public class Calibration_ML : MonoBehaviour
 {
     // Start is called before the first frame update
     public TextMeshProUGUI inhaleExhaleText;
-    static public int minPeak;
-    static public int maxPeak;
-    [SerializeField] private int callibration;
+    static public float minPeak;
+    static public float maxPeak;
+    private float peakRange;
+    private float threshold;
     [SerializeField] private int targetCycles = 10;
     [SerializeField] private float inhaleDuration = 3f;
     [SerializeField] private float exhaleDuration = 3f;
 
     public string nextSceneName = "L_TestingVR";
 
-    private int prevValue = 0;
+    public float TargetSliderValue { get; private set; } = 0f;
+
+    private float prevValue = 0;
     private int cycleCount = 0;
     private bool isRising = false;
     private bool isFalling = false;
@@ -35,9 +38,9 @@ public class Calibration_ML : MonoBehaviour
     {
         //Debug.Log("Message arrived: " + msg);
 
-        int curValue = int.Parse(msg);
+        float curValue = float.Parse(msg);
 
-        if (curValue > prevValue + callibration)
+        if (curValue > prevValue + threshold)
         {
             maxPeak = curValue;
             Debug.Log("New Max Peak: " + maxPeak);
@@ -47,6 +50,7 @@ public class Calibration_ML : MonoBehaviour
                 riseTime = Time.time;
                 isRising = true;
                 isFalling = false;
+                TargetSliderValue = Mathf.Clamp01(0 + ((Time.time - riseTime) / inhaleDuration));
 
                 if (inhaleExhaleText != null)
                 {
@@ -67,7 +71,7 @@ public class Calibration_ML : MonoBehaviour
             }
         }
 
-        else if (curValue < prevValue + callibration)
+        else if (curValue < prevValue + threshold)
         {
             minPeak = curValue;
             Debug.Log("New Min Peak: " + minPeak);
@@ -77,6 +81,7 @@ public class Calibration_ML : MonoBehaviour
                 fallTime = Time.time;
                 isRising = false;
                 isFalling = true;
+                TargetSliderValue = Mathf.Clamp01(1 - ((Time.time - fallTime) / exhaleDuration));
 
                 if (inhaleExhaleText != null)
                 {
@@ -109,15 +114,19 @@ public class Calibration_ML : MonoBehaviour
         }
         
         prevValue = curValue;
+        peakRange = maxPeak - minPeak;
+        threshold = peakRange * 0.1f;
     }
     void LoadNextScene()
     {
         SceneManager.LoadScene(nextSceneName);
     }
 
-    public void SetInt(string name, int value)
-        {
-            PlayerPrefs.SetInt("NegPeak", minPeak);
-            PlayerPrefs.SetInt("PosPeak", maxPeak);
-        }
+    void OnConnectionEvent(bool success)
+    {
+        if (success)
+            Debug.Log("Connection established");
+        else
+            Debug.Log("Connection attempt failed or disconnection detected");
+    }
 }
