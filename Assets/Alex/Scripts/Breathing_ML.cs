@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class Breathing_ML : MonoBehaviour
 {
@@ -14,37 +16,46 @@ public class Breathing_ML : MonoBehaviour
     [SerializeField] private float dropThreshold = 0.7f;
     [SerializeField] private float ScaleFactor;
     [SerializeField] private GameObject scaleObject;
+    [SerializeField] private GameObject leaf;
+    [SerializeField] private Camera playerCamera;
 
-    private int posPeak = Calibration_ML.maxPeak;
-    private int negPeak = Calibration_ML.minPeak;
+    private float posPeak = Calibration_ML.maxPeak;
+    private float negPeak = Calibration_ML.minPeak;
     private int localPosPeak;
     private int localNegPeak;
-    private int prevValue = 0;
+    private int cycleCount = 0;
+    private int targetCycles = 1;
+    private int currentPhase = 0;
+    private float prevValue = 0f;
     private bool isRising = false;
     private bool isFalling = false;
     private bool canGrow = false;
+    private bool animationInProgress = false;
+    private float phaseTimer = 0f;
+    private Animator growing;
 
     public TextMeshProUGUI inhaleExhaleText;
-
-    // New property to store the slider value
-    public float TargetSliderValue { get; private set; } = 0f; // Expose this to update the slider
-
-    // New property to store inhale/exhale state
-    public bool IsInhaling { get; private set; } = false;
 
     void Start()
     {
         Debug.Log("PosPeak= " + Calibration_ML.maxPeak);
         Debug.Log("NegPeak= " + Calibration_ML.minPeak);
+        growing = scaleObject.GetComponent<Animator>();
         if (inhaleExhaleText != null)
         {
             inhaleExhaleText.text = "Inhale";
         }
     }
-
     void OnMessageArrived(string msg)
     {
         int curValue = int.Parse(msg);
+
+       // if (isRising || isFalling)
+       // {
+       //     phaseTimer = Time.time;
+       // }
+
+       // Stopwatch.text = "Time: " +phaseTimer.ToString("F2") + "s";
 
         if (curValue > prevValue + callibration)
         {
@@ -55,6 +66,8 @@ public class Breathing_ML : MonoBehaviour
                 riseTime = Time.time;
                 isRising = true;
                 isFalling = false;
+                Debug.Log("Inhale");
+                Debug.Log(posPeak * peakCalibration - localPosPeak);
 
                 if (inhaleExhaleText != null)
                 {
@@ -62,24 +75,25 @@ public class Breathing_ML : MonoBehaviour
                 }
             }
 
-            if ((localPosPeak >= posPeak + peakCalibration) && (Time.time - riseTime >= inhaleDuration))
+            if (Time.time - riseTime >= inhaleDuration)
             {
                 isRising = false;
                 isFalling = true;
                 canGrow = true;
                 fallTime = Time.time;
-                Debug.Log("Reached peak");
 
-                if (inhaleExhaleText != null)
+                if (localPosPeak + peakCalibration >= posPeak)
                 {
-                    inhaleExhaleText.text = "Exhale";
+                    Debug.Log("Reached peak");
+
+                    if (inhaleExhaleText != null)
+                    {
+                        inhaleExhaleText.text = "Exhale";
+                    }
                 }
             }
-
-            // Set TargetSliderValue for inhale (0 to 1)
-            TargetSliderValue = Mathf.Clamp01((Time.time - riseTime) / inhaleDuration);
-            IsInhaling = true;
         }
+
         else if (curValue < prevValue + callibration)
         {
             localNegPeak = curValue;
@@ -89,18 +103,12 @@ public class Breathing_ML : MonoBehaviour
                 fallTime = Time.time;
                 isRising = false;
                 isFalling = true;
+                Debug.Log("Exhale");
 
                 if (inhaleExhaleText != null)
                 {
                     inhaleExhaleText.text = "Exhale";
                 }
-            }
-
-            if (curValue < posPeak * dropThreshold && canGrow)
-            {
-                scaleObject.transform.localScale = new Vector3(ScaleFactor, ScaleFactor, ScaleFactor);
-                Debug.Log("Scaled!");
-                canGrow = false;
             }
 
             if (Time.time - fallTime >= exhaleDuration)
@@ -113,14 +121,58 @@ public class Breathing_ML : MonoBehaviour
                 {
                     inhaleExhaleText.text = "Inhale";
                 }
+                cycleCount++;
+
+                if (cycleCount >= targetCycles)
+                {
+                    cycleCount = 0;
+                }
             }
+        }
+        prevValue = curValue;
 
-            // Set TargetSliderValue for exhale (1 to 0)
-            TargetSliderValue = Mathf.Clamp01(1 - ((Time.time - fallTime) / exhaleDuration));
-            IsInhaling = false;
+        if (!animationInProgress && currentPhase < 4)
+        {
+            growing.SetTrigger($"Phase{currentPhase + 1}");
+            animationInProgress = true;
+            Debug.Log($"Starting Phase {currentPhase + 1}");
+        }
+    }
 
-            prevValue = curValue;
+    public void OnAnimationComplete()
+    {
+        animationInProgress = false;
+        currentPhase++;
+
+        if (currentPhase == 4)
+        {
+            SpawnLeaf();
+            CameraToLeaf();
+        }
+    }
+
+    void SpawnLeaf()
+    {
+        Vector3 spawnPosition = new Vector3(0f, 1f, 0f);
+        Instantiate(leaf, spawnPosition, Quaternion.identity);
+        Debug.Log("Leaf is spawned");
+    }
+
+    void CameraToLeaf()
+    {
+        GameObject spawnedObject = Instantiate(leaf);
+        playerCamera.transform.position = new Vector3(spawnedObject.transform.position.x, spawnedObject.transform.position.y, playerCamera.transform.position.z);
+        playerCamera.transform.LookAt(spawnedObject.transform);  // Focus the camera on the new object
+        Debug.Log("Camera moved to leaf");
+    }
+
+    public void OnCycleComplete()
+    {
+        if (currentPhase < 4)
+        {
+            growing.SetTrigger($"Phase{currentPhase + 1}");
+            animationInProgress = true;
+            Debug.Log($"Starting Phase {currentPhase + 1}");
         }
     }
 }
-
